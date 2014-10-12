@@ -1,9 +1,9 @@
 var net = require('net');
-// Lower port -> min(dinamicports), Upper port -> max(dinamicports) //
-var upper_port = 65535; var lower_port = 49151;
-var actual_configuration = {49152:["www.dsic.upv.es",80,"proxy"],
-			    			49153:["www.upv.es",80,"proxy"],
-			    			49156:["www.google.es",80,"proxy"]};
+// Configure port range //
+var upper_port = 65535; var lower_port = 0;
+var actual_configuration = {410:["www.dsic.upv.es",80,"proxy"],
+			    			411:["www.upv.es",80,"proxy"],
+			    			412:["www.google.es",80,"proxy"]};
 var LOCAL_PORT_PPROXY = 8000;
 var LOCAL_IP = '127.0.0.1';
 
@@ -39,7 +39,7 @@ function main(){
 			var in_port  = new_data["inPort"]
 	    	var new_ip   = new_data["remote"]["ip"]
 	   		var new_port = new_data["remote"]["port"]
-            if(in_port >= lower_port && in_port <= upper_port){ // Para evitar conflictos entre puertos se usan los puertos privados
+            if(in_port >= lower_port && in_port <= upper_port){
             	if(new_data["op"] === "set"){
 					if(actual_configuration.hasOwnProperty(in_port.toString())){
             			actual_configuration[in_port][0] = new_ip;
